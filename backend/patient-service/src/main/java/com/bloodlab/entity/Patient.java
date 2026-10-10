@@ -64,6 +64,18 @@ public class Patient {
 	private LocalDateTime createdAt=LocalDateTime.now();
 	
 	
+	public void setPatientCode(String patientCode) {
+	    this.patientCode = patientCode;
+	}
+	
+	
+	public String getPatientCode() {
+		
+		return patientCode;
+		
+	}
+	
+	
 	
 	
 
