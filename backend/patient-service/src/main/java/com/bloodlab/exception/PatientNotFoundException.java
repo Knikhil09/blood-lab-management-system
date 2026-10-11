@@ -3,7 +3,7 @@ package com.bloodlab.exception;
 public class PatientNotFoundException extends RuntimeException {
 	
 	
-	PatientNotFoundException(String message){
+	public PatientNotFoundException(String message){
 		
 		super(message);
 	}

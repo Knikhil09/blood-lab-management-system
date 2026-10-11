@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bloodlab.entity.Patient;
+import com.bloodlab.exception.PatientAlreadyExistsException;
+import com.bloodlab.exception.PatientNotFoundException;
 import com.bloodlab.repository.PatientRepository;
 
 
@@ -32,6 +34,13 @@ public class PatientService {
 			
 		}
 		
+		if (patientRepository.existsByPatientCode(patient.getPatientCode())) {
+		    
+			throw new PatientAlreadyExistsException(
+		            "Patient already exists with code: "
+		                    + patient.getPatientCode());
+		}
+		
 		return patientRepository.save(patient);
 		
 	}
@@ -53,15 +62,24 @@ public class PatientService {
 		
 	}
 	
+	public Patient searchPatientById(Long id){
+		
+		return patientRepository.findById(id)
+								.orElseThrow(()->new PatientNotFoundException("Patient not found:"+id));
+		
+		
+	}
+	
 	public List<Patient> getAllPatients(){
 		
 		return patientRepository.findAll();
 		
 	}
 	
-	public Optional<Patient> getPatientByCode(String patientCode){
+	public Patient getPatientByCode(String patientCode){
 		
-		return patientRepository.findByPatientCode(patientCode);
+		return patientRepository.findByPatientCode(patientCode)
+								.orElseThrow(()-> new PatientNotFoundException("Patient not found with code"+ patientCode));
 		
 	}
 	
@@ -75,6 +93,21 @@ public class PatientService {
 	public List<Patient> searchPatientByMobile(String mobile){
 		
 		return patientRepository.findByMobile(mobile);
+	}
+
+	@Transactional
+	public Patient updatePatient(Long id, Patient updatedPatient) {
+		// TODO Auto-generated method stub
+		Patient existingPatient=patientRepository.findById(id)
+												 .orElseThrow(()->new PatientNotFoundException("Patient not found with id for updation:"+id));
+		
+		existingPatient.setName(updatedPatient.getName());
+		existingPatient.setAge(updatedPatient.getAge());
+		existingPatient.setGender(updatedPatient.getGender());
+		existingPatient.setMobile(updatedPatient.getMobile());
+		
+		return patientRepository.save(existingPatient);
+		
 	}
 	
 
