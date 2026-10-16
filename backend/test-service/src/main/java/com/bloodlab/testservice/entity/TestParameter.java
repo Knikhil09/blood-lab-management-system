@@ -8,7 +8,8 @@ public class TestParameter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="id")
+    private Long parameterId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_test_id", nullable = false)
@@ -30,7 +31,7 @@ public class TestParameter {
     private Boolean active = true;
 
     public Long getId() {
-        return id;
+        return parameterId;
     }
 
     public LabTest getLabTest() {

@@ -9,7 +9,8 @@ public class LabTest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="id")
+    private Long testId;
 
     @Column(nullable = false, unique = true)
     private String testCode;
@@ -31,11 +32,11 @@ public class LabTest {
     }
 
     public Long getId() {
-        return id;
+        return testId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.testId = id;
     }
 
     public String getTestCode() {
